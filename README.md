@@ -1,24 +1,30 @@
-# README
+# WSL Rails Testing
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+##Install firefox
 
-Things you may want to cover:
+sudo apt-get update
+sudo apt-get install -y firefox
+https://github.com/mozilla/geckodriver/releases
 
-* Ruby version
+wget https://github.com/mozilla/geckodriver/releases/download/v0.90.0/geckodriver-v0.90.0-linux64.tar.gz
+tar zxvf geckodriver-v0.90.0-linux64.tar.gz
+chmod +x geckodriver
+sudo mv -f geckodriver /usr/local/share/geckodriver
+sudo ln -s /usr/local/share/geckodriver /usr/local/bin/geckodriver
+sudo ln -s /usr/local/share/geckodriver /usr/bin/geckodriver
 
-* System dependencies
 
-* Configuration
 
-* Database creation
+## Setup Rails 
 
-* Database initialization
+## To change driver to headless_*
+#application_system_test_case.rb (change driver to headless_*:)
 
-* How to run the test suite
+require "test_helper"
 
-* Services (job queues, cache servers, search engines, etc.)
+class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  driven_by :selenium, using: :headless_firefox
+end
 
-* Deployment instructions
-
-* ...
+Run the test
+rails test test/system/*
